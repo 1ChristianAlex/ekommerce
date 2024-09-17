@@ -1,6 +1,7 @@
 package store.com.application.core
 
-import org.ktorm.database.Database
+import org.jetbrains.exposed.sql.Database
+
 
 interface BaseDatabase {
     val database: Database

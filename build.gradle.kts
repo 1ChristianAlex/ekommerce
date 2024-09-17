@@ -4,7 +4,7 @@ val postgres_version: String by project
 val h2_version: String by project
 val koin_ktor: String by project
 val ktor_version: String by project
-val ktorm_version: String by project
+val exposed: String by project
 
 plugins {
     kotlin("jvm") version "2.0.0"
@@ -54,8 +54,10 @@ dependencies {
 
 
     // Database
-    implementation("org.ktorm:ktorm-core:$ktorm_version")
-    implementation("org.ktorm:ktorm-support-postgresql:$ktorm_version")
+    implementation("org.jetbrains.exposed:exposed-core:$exposed")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposed")
+    implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposed")
     implementation("org.postgresql:postgresql:$postgres_version")
 
     testImplementation("io.ktor:ktor-server-tests-jvm")

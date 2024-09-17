@@ -1,35 +1,41 @@
 package store.com.adapter.out.postgres.migrations
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.toJavaLocalDate
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.insertAndGenerateKey
-import org.ktorm.entity.removeIf
-import org.ktorm.entity.sequenceOf
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
+import org.jetbrains.exposed.sql.Schema
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
+import store.com.adapter.out.postgres.model.MigrationEntity
+import store.com.adapter.out.postgres.model.MigrationTable
 import store.com.adapter.out.postgres.model.UserEntity
 import store.com.adapter.out.postgres.model.UserTable
-import store.com.application.core.BaseDatabase
 
-class InitialMigration(private val _database: BaseDatabase) : BaseMigration() {
-    private val getUserTable get() = _database.database.sequenceOf(UserTable)
-
+class InitialMigration() : BaseMigration() {
     override fun up() {
+       transaction {
+           SchemaUtils.createSchema(Schema("migration"))
+           SchemaUtils.createSchema(Schema("user"))
 
-        val userEntity = UserEntity(
-            password = "123456",
-            birthDate = LocalDate(1999, 6, 13).toJavaLocalDate(),
-            name = "Christian Alexsander",
-            email = "christian.alexsander@outlook.com",
-            id = 0
-        )
+           SchemaUtils.create(MigrationTable)
+           SchemaUtils.create(UserTable)
 
+           MigrationEntity.new {
+               name = className
+               time = Clock.System.todayIn(TimeZone.currentSystemDefault())
+           }
 
-        _database.database.insertAndGenerateKey(UserTable) {
-            it.entityToTable(this, userEntity)
-        }
+           UserEntity.new {
+               password = "123456"
+               birthDate = LocalDate(1999, 6, 13)
+               name = "Christian Alexsander"
+               email = "christian.alexsander@outlook.com"
+           }
+       }
     }
 
     override fun down() {
-        getUserTable.removeIf { it.email eq "christian.alexsander@outlook.com" }
+        MigrationEntity.find { MigrationTable.name eq className }
     }
 }

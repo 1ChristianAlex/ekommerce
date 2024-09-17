@@ -7,6 +7,7 @@ import store.com.adapter.`in`.http.config.configureSecurity
 import store.com.adapter.`in`.http.config.configureSerialization
 import store.com.adapter.`in`.http.config.requestValidation
 import store.com.adapter.`in`.http.controller.appRoutes
+import store.com.adapter.out.postgres.dbConnection
 import store.com.adapter.out.postgres.migrations.migration
 
 fun main(args: Array<String>) {
@@ -14,10 +15,10 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    dbConnection()
     configDI()
     migration()
     configureSerialization()
-//    configureDatabases()
     configureHTTP()
     configureSecurity()
     requestValidation()

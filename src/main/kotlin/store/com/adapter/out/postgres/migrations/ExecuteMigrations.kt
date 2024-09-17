@@ -1,16 +1,14 @@
 package store.com.adapter.out.postgres.migrations
 
 import io.ktor.server.application.*
-import org.koin.ktor.ext.inject
-import store.com.application.core.BaseDatabase
 
-class ExecuteMigrations(private val _database: BaseDatabase) {
+class ExecuteMigrations() {
 
-    private val migrationList = listOf(InitialMigration(_database))
+    private val migrationList = listOf(InitialMigration())
 
     fun runUp() {
         migrationList.forEach {
-            it.up()
+            it::up.invoke()
         }
     }
 
@@ -22,9 +20,8 @@ class ExecuteMigrations(private val _database: BaseDatabase) {
 }
 
 fun Application.migration() {
-    val database by inject<BaseDatabase>()
     try {
-        ExecuteMigrations(database).runUp()
+        ExecuteMigrations().runUp()
     } catch (e: Exception) {
         println("[ERROR] Error on database migrations - Message - ${e.message}")
     }

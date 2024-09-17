@@ -7,12 +7,9 @@ import store.com.adapter.`in`.http.controller.user.UserController
 import store.com.adapter.`in`.http.controller.user.dto.UserDtoMapper
 import store.com.adapter.`in`.http.controller.user.dto.UserInputDTO
 import store.com.adapter.`in`.http.controller.user.dto.UserOutputDto
-import store.com.adapter.out.postgres.PostgresConnection
-import store.com.adapter.out.postgres.migrations.ExecuteMigrations
 import store.com.adapter.out.postgres.model.UserEntity
 import store.com.adapter.out.postgres.user.UserPostgresRepository
 import store.com.adapter.out.postgres.user.UserPostgresRepositoryMapper
-import store.com.application.core.BaseDatabase
 import store.com.application.core.BaseDtoMapper
 import store.com.application.core.BaseUseCase
 import store.com.application.user.port.UserRepository
@@ -24,13 +21,6 @@ import store.com.domain.user.service.LoginService
 import store.com.domain.user.service.UserService
 
 val appModule = module {
-
-    // database
-    single<BaseDatabase> { PostgresConnection() }
-
-    // Migration
-    single { ExecuteMigrations(get()) }
-
     // controllers
     single { LoginController(get()) }
     single { UserController(get(), get()) }

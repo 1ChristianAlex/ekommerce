@@ -1,27 +1,20 @@
 package store.com.adapter.out.postgres.model
 
-import org.ktorm.dsl.QueryRowSet
-import org.ktorm.schema.BaseTable
-import org.ktorm.schema.datetime
-import org.ktorm.schema.int
-import org.ktorm.schema.varchar
-import java.time.LocalDateTime
 
-data class MigrationEntity(
-    val id: Int,
-    val time: LocalDateTime,
-    val name: String
-)
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.kotlin.datetime.date
 
 
-object MigrationTable : BaseTable<MigrationEntity>("migration", "mgt", null, "migration") {
-    val id = int("id").primaryKey()
-    val time = datetime("time")
-    val name = varchar("name")
+object MigrationTable : IntIdTable("migration.migration") {
+    val time = date("time")
+    val name = text("name")
+}
 
-    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = MigrationEntity(
-        id = row[id] ?: 0,
-        name = row[name].orEmpty(),
-        time = row[time] ?: LocalDateTime.now(),
-    )
+class MigrationEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object Factory: IntEntityClass<MigrationEntity>(MigrationTable)
+    var time by MigrationTable.time
+    var name by MigrationTable.name
 }
