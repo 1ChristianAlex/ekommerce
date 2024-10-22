@@ -24,7 +24,8 @@ class UserDtoMapper : BaseDtoMapper<UserInputDTO, UserOutputDto, UserModel>() {
                 name = it.name,
                 email = it.email,
                 id = it.id,
-                birthDate = fromIsoDate(it.birthDate).date
+                birthDate = fromIsoDate(it.birthDate).date,
+                password = null
             )
         }
     }

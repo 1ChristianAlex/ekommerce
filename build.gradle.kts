@@ -7,9 +7,9 @@ val ktor_version: String by project
 val exposed: String by project
 
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.20"
     id("io.ktor.plugin") version "2.3.12"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 group = "example.com"
@@ -27,12 +27,14 @@ repositories {
 }
 
 dependencies {
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+
     // Ktor
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
     implementation("io.ktor:ktor-server-request-validation:$ktor_version")
-    implementation("io.ktor:ktor-serialization-gson-jvm")
     implementation("io.ktor:ktor-server-cors-jvm")
     implementation("io.ktor:ktor-server-default-headers-jvm")
     implementation("io.ktor:ktor-server-compression-jvm")
@@ -59,6 +61,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposed")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposed")
     implementation("org.postgresql:postgresql:$postgres_version")
+
+    // Hashing
+    implementation("org.mindrot:jbcrypt:0.4")
 
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

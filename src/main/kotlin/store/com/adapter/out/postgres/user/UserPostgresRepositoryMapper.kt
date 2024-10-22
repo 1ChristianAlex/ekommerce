@@ -7,7 +7,13 @@ import store.com.domain.user.model.UserModel
 class UserPostgresRepositoryMapper : UserRepositoryMapper<UserEntity> {
     override fun toModel(input: UserEntity): UserModel {
         return input.let {
-            UserModel(email = it.email, birthDate = it.birthDate, id = it.id.value, name = it.name)
+            UserModel(
+                email = it.email,
+                birthDate = it.birthDate,
+                id = it.id.value,
+                name = it.name,
+                password = input.password
+            )
         }
     }
 

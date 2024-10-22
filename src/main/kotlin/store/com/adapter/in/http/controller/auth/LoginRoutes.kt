@@ -8,9 +8,11 @@ import org.koin.ktor.ext.inject
 fun Routing.loginController() {
     val controller by inject<LoginController>()
 
-    post("login") {
-        launch {
-            controller.doLogin(call)
+    route("auth") {
+        post("login") {
+            launch {
+                controller.doLogin(call)
+            }
         }
     }
 }

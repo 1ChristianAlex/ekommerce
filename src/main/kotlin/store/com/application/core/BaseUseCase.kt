@@ -1,6 +1,5 @@
 package store.com.application.core
 
-import com.google.gson.Gson
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,9 +17,8 @@ abstract class BaseUseCase<TInput, TOutput> {
             val result = internalExecute(inputData)
 
             return UseCaseResult(success = true, data = result, error = null)
-        } catch (e: Exception) {
-            val inputJson = Gson().toJson(inputData)
-            val message = "Error executing use case: ${useCaseDescription()} - inputData: $inputJson - $e.message"
+        } catch (error: Throwable) {
+            val message = "Error executing use case: ${useCaseDescription()} - ${error.message}"
             return UseCaseResult(success = false, data = null, error = SerializableError(message))
         }
     }

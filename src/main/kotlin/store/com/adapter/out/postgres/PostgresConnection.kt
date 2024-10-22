@@ -16,7 +16,7 @@ class PostgresConnection {
                 url = "jdbc:postgresql://$databaseUrl:$postgresPort/$postgresDb",
                 driver = "org.postgresql.Driver",
                 user = postgresUser,
-                password = postgresPassword
+                password = postgresPassword,
             )
         } catch (e: Exception) {
             println("[ERROR] Error on database connection - Message - ${e.message}")

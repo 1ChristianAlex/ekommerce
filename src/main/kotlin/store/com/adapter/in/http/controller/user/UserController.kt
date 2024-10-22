@@ -1,9 +1,9 @@
 package store.com.adapter.`in`.http.controller.user
 
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 import store.com.adapter.`in`.http.controller.user.dto.UserInputDTO
 import store.com.adapter.`in`.http.controller.user.dto.UserOutputDto
 import store.com.application.core.BaseDtoMapper
@@ -17,9 +17,9 @@ class UserController(
 ) {
     suspend fun createUser(call: ApplicationCall) {
         try {
-            val loginRequest = call.receive<UserInputDTO>()
+            val userInputDTO = call.receive<UserInputDTO>()
 
-            val useCaseResult = createNewUserUseCase.execute(userDtoMapper.fromDto(loginRequest))
+            val useCaseResult = createNewUserUseCase.execute(userDtoMapper.fromDto(userInputDTO))
 
             useCaseResult.error?.let {
                 call.response.status(HttpStatusCode.BadRequest)

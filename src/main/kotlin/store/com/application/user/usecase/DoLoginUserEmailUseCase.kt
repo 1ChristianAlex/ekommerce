@@ -12,7 +12,5 @@ class DoLoginUserEmailUseCase(private val _loginService: LoginService) : BaseUse
         return doLoginWithEmail
     }
 
-    override fun useCaseDescription(): String {
-        return "Try to do login with user email and password."
-    }
+    override fun useCaseDescription() = "Try to do login with user email and password."
 }

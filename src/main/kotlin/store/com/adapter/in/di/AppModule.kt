@@ -12,6 +12,8 @@ import store.com.adapter.out.postgres.user.UserPostgresRepository
 import store.com.adapter.out.postgres.user.UserPostgresRepositoryMapper
 import store.com.application.core.BaseDtoMapper
 import store.com.application.core.BaseUseCase
+import store.com.application.core.auth.JwtService
+import store.com.application.core.encrypt.PasswordEncrypt
 import store.com.application.user.port.UserRepository
 import store.com.application.user.port.UserRepositoryMapper
 import store.com.application.user.usecase.CreateNewUserUseCase
@@ -21,21 +23,29 @@ import store.com.domain.user.service.LoginService
 import store.com.domain.user.service.UserService
 
 val appModule = module {
+
+    // auth
+
+    single { JwtService() }
+
     // controllers
     single { LoginController(get()) }
     single { UserController(get(), get()) }
 
     // services
-    single { LoginService(get()) }
+    single { LoginService(get(), get()) }
     single { UserService(get()) }
 
     // useCase
     single<BaseUseCase<LoginInputDTO, UserModel>> { DoLoginUserEmailUseCase(get()) }
     single<BaseUseCase<UserModel, UserModel>> { CreateNewUserUseCase(get()) }
     // repository
-    single<UserRepository> { UserPostgresRepository(get(), get()) }
+    single<UserRepository> { UserPostgresRepository(get()) }
     single<UserRepositoryMapper<UserEntity>> { UserPostgresRepositoryMapper() }
 
+
+    // Core
+    single { PasswordEncrypt() }
 
     // mappers
     single<BaseDtoMapper<UserInputDTO, UserOutputDto, UserModel>> { UserDtoMapper() }
