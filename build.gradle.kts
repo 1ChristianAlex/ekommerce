@@ -5,6 +5,10 @@ val h2_version: String by project
 val koin_ktor: String by project
 val ktor_version: String by project
 val exposed: String by project
+val mockito: String by project
+
+
+val mockitoAgent = configurations.create("mockitoAgent")
 
 plugins {
     kotlin("jvm") version "2.0.20"
@@ -65,11 +69,22 @@ dependencies {
     // Hashing
     implementation("org.mindrot:jbcrypt:0.4")
 
+
+    // Testing
+
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.mockito:mockito-core:$mockito")
+    mockitoAgent("org.mockito:mockito-core:$mockito") { isTransitive = false }
+
 }
 ktor {
     fatJar {
         archiveFileName.set("fat.jar")
+    }
+}
+tasks {
+    test {
+        jvmArgs("-javaagent:${mockitoAgent.asPath}")
     }
 }
