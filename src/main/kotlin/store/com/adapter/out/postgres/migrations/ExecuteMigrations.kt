@@ -5,7 +5,8 @@ import org.koin.ktor.ext.inject
 import store.com.application.core.encrypt.PasswordEncrypt
 
 class ExecuteMigrations(passwordEnCrypt: PasswordEncrypt) {
-    private val migrationList = listOf(InitialMigration(passwordEnCrypt), AdminUserMigration(passwordEnCrypt))
+    private val migrationList =
+        listOf(InitialMigration(passwordEnCrypt), AdminUserMigration(passwordEnCrypt), ProductMigration())
 
     fun runUp() {
         migrationList.forEach {

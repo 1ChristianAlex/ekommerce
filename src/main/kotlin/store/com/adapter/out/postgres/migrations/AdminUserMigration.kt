@@ -6,7 +6,7 @@ import store.com.adapter.out.postgres.model.UserEntity
 import store.com.adapter.out.postgres.model.UserTable
 import store.com.application.core.encrypt.PasswordEncrypt
 
-class AdminUserMigration(private val _passwordEnCrypt: PasswordEncrypt):BaseMigration() {
+class AdminUserMigration(private val _passwordEnCrypt: PasswordEncrypt) : BaseMigration() {
     override val time: Long
         get() = 1726601030555
 
@@ -23,7 +23,7 @@ class AdminUserMigration(private val _passwordEnCrypt: PasswordEncrypt):BaseMigr
 
     override fun down() {
         transaction {
-            val adminUser = UserEntity.find{UserTable.email eq "christian.alexsander@outlook.com"}
+            val adminUser = UserEntity.find { UserTable.email eq "christian.alexsander@outlook.com" }
             adminUser.firstOrNull()?.delete()
         }
     }
