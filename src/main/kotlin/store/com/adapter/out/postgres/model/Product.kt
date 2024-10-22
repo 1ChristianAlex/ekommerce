@@ -11,6 +11,8 @@ object ProductTable : BaseTable("catalog.product") {
     val price = double("price")
     val stock = integer("stock")
     val isActive = bool("isActive")
+    val brand = reference("brandId", BrandTable)
+
 }
 
 class ProductEntity(id: EntityID<Int>) : BaseEntity(id) {
@@ -20,8 +22,12 @@ class ProductEntity(id: EntityID<Int>) : BaseEntity(id) {
     var description by ProductTable.description
     var price by ProductTable.price
     var stock by ProductTable.stock
-    val images by ImagesEntity referrersOn ImagesTable.product
+
     var isActive by ProductTable.isActive
     override var createdAt by ProductTable.createdAt
     override var updatedAt by ProductTable.updatedAt
+
+    val images by ImagesEntity referrersOn ImagesTable.product
+    var categories by CategoriesEntity via CategoriesProductTable
+    var brand by BrandEntity referencedOn ProductTable.brand
 }

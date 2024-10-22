@@ -11,11 +11,11 @@ abstract class BaseDtoMapper<TDtoInput, TDtoOutput, TOutput> {
     abstract fun toDto(output: TOutput): TDtoOutput
     abstract fun fromDto(input: TDtoInput): TOutput
 
-    protected fun getIsoDate(date: LocalDateTime): String {
-        return date.toInstant(TimeZone.currentSystemDefault()).toString()
+    protected fun toUTCString(date: LocalDateTime): String {
+        return date.toInstant(TimeZone.UTC).toString()
     }
 
-    protected fun fromIsoDate(date: String): LocalDateTime {
+    protected fun fromIsoString(date: String): LocalDateTime {
         return Instant.parse(date).toLocalDateTime(TimeZone.currentSystemDefault())
     }
 }

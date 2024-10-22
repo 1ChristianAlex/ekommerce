@@ -13,7 +13,7 @@ class UserDtoMapper : BaseDtoMapper<UserInputDTO, UserOutputDto, UserModel>() {
                 name = it.name,
                 email = it.email,
                 id = it.id,
-                birthDate = getIsoDate(LocalDateTime(it.birthDate, LocalTime(6, 13, 0, 0)))
+                birthDate = toUTCString(LocalDateTime(it.birthDate, LocalTime(6, 13, 0, 0)))
             )
         }
     }
@@ -24,7 +24,7 @@ class UserDtoMapper : BaseDtoMapper<UserInputDTO, UserOutputDto, UserModel>() {
                 name = it.name,
                 email = it.email,
                 id = it.id,
-                birthDate = fromIsoDate(it.birthDate).date,
+                birthDate = fromIsoString(it.birthDate).date,
                 password = input.password,
             )
         }

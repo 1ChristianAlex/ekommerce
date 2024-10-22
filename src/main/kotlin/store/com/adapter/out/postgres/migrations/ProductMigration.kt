@@ -2,11 +2,9 @@ package store.com.adapter.out.postgres.migrations
 
 import org.jetbrains.exposed.sql.Schema
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.SizedCollection
 import org.jetbrains.exposed.sql.transactions.transaction
-import store.com.adapter.out.postgres.model.ImagesEntity
-import store.com.adapter.out.postgres.model.ImagesTable
-import store.com.adapter.out.postgres.model.ProductEntity
-import store.com.adapter.out.postgres.model.ProductTable
+import store.com.adapter.out.postgres.model.*
 
 class ProductMigration : BaseMigration() {
     override val time: Long
@@ -18,16 +16,31 @@ class ProductMigration : BaseMigration() {
             SchemaUtils.createSchema(Schema("catalog"))
 
             SchemaUtils.create(ProductTable)
+            SchemaUtils.create(BrandTable)
+            SchemaUtils.create(CategoriesTable)
+            SchemaUtils.create(CategoriesProductTable)
             SchemaUtils.create(ImagesTable)
 
         }
         transaction {
+
+            val branchItem = BrandEntity.new {
+                name = "Nike"
+            }
+
+            val newCategory = CategoriesEntity.new {
+                name = "Category Test"
+                description = "Test Category"
+            }
+
             val productTest = ProductEntity.new {
                 name = "Test Product"
                 price = 200.36
                 description = "Testing product creation"
                 stock = 15
                 isActive = true
+                categories = SizedCollection(listOf(newCategory))
+                brand = branchItem
             }
 
             ImagesEntity.new {
@@ -36,17 +49,19 @@ class ProductMigration : BaseMigration() {
                 urlSource = "https://picsum.photos/200/300"
             }
         }
-        transaction {
 
-        }
     }
 
     override fun down() {
         transaction {
-            SchemaUtils.drop(ImagesTable)
-            SchemaUtils.drop(ProductTable)
             SchemaUtils.dropSchema(Schema("media"))
             SchemaUtils.dropSchema(Schema("catalog"))
+
+            SchemaUtils.drop(ProductTable)
+            SchemaUtils.drop(BrandTable)
+            SchemaUtils.drop(CategoriesTable)
+            SchemaUtils.drop(CategoriesProductTable)
+            SchemaUtils.drop(ImagesTable)
         }
     }
 }
