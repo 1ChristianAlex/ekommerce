@@ -1,10 +1,10 @@
 package store.com.application.user.usecase
 
-import store.com.application.core.BaseUseCase
+import store.com.application.user.port.CreateNewUserUseCase
 import store.com.domain.user.model.UserModel
 import store.com.domain.user.service.UserService
 
-class CreateNewUserUseCase(private val userService: UserService) : BaseUseCase<UserModel, UserModel>() {
+class CreateNewUserUseCaseImpl(private val userService: UserService) : CreateNewUserUseCase() {
     override suspend fun internalExecute(inputData: UserModel): UserModel {
         return userService.createNewUser(inputData)
     }

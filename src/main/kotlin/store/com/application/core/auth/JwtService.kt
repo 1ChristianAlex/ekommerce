@@ -38,7 +38,7 @@ class JwtService {
         )
     }
 
-    fun generateToken(userOutputDto: UserOutputDto) {
+    fun generateToken(userOutputDto: UserOutputDto): String {
         val token = JWT.create()
             .withAudience(jwtAudience)
             .withIssuer(jwtDomain)
@@ -52,5 +52,7 @@ class JwtService {
             }
             .withExpiresAt(Clock.System.now().toJavaInstant().plusNanos(60000))
             .sign(Algorithm.HMAC256(jwtSecret))
+
+        return token
     }
 }

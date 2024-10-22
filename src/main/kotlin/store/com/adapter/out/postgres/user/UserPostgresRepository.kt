@@ -1,6 +1,7 @@
 package store.com.adapter.out.postgres.user
 
 
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import store.com.adapter.out.postgres.model.UserEntity
 import store.com.adapter.out.postgres.model.UserTable
@@ -22,13 +23,15 @@ class UserPostgresRepository(
         userRepositoryMapper.toModel(userEntity)
     }
 
-    override suspend fun findUserByEmail(email: String): UserModel? = transaction {
-        val user = UserEntity.find { UserTable.email eq email }
+    override suspend fun findUserByEmail(email: String): UserModel? {
+        return newSuspendedTransaction {
+            val user = UserEntity.find { UserTable.email eq email }
 
-        if (!user.empty()) {
-            userRepositoryMapper.toModel(user.first())
+            if (!user.empty()) {
+                return@newSuspendedTransaction userRepositoryMapper.toModel(user.first())
+            }
+
+            return@newSuspendedTransaction null
         }
-
-        null
     }
 }

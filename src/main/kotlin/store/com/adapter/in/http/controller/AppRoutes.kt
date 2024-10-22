@@ -7,7 +7,6 @@ import store.com.adapter.`in`.http.controller.user.userController
 
 fun Application.appRoutes() {
     routing {
-        helloController()
         loginController()
         userController()
     }

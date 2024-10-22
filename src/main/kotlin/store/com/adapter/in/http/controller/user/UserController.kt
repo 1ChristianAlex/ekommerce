@@ -4,16 +4,15 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import store.com.adapter.`in`.http.controller.user.dto.UserDtoMapper
 import store.com.adapter.`in`.http.controller.user.dto.UserInputDTO
 import store.com.adapter.`in`.http.controller.user.dto.UserOutputDto
-import store.com.application.core.BaseDtoMapper
-import store.com.application.core.BaseUseCase
 import store.com.application.core.UseCaseResult
-import store.com.domain.user.model.UserModel
+import store.com.application.user.port.CreateNewUserUseCase
 
 class UserController(
-    private val createNewUserUseCase: BaseUseCase<UserModel, UserModel>,
-    private val userDtoMapper: BaseDtoMapper<UserInputDTO, UserOutputDto, UserModel>
+    private val createNewUserUseCase: CreateNewUserUseCase,
+    private val userDtoMapper: UserDtoMapper
 ) {
     suspend fun createUser(call: ApplicationCall) {
         try {
