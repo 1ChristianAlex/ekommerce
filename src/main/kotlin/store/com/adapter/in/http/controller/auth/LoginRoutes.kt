@@ -5,7 +5,7 @@ import io.ktor.server.routing.*
 import kotlinx.coroutines.launch
 import org.koin.ktor.ext.inject
 
-fun Routing.loginController() {
+fun Routing.loginRoutes() {
     val controller by inject<LoginController>()
 
     route("auth") {

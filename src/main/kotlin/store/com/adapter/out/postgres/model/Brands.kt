@@ -17,5 +17,5 @@ class BrandEntity(id: EntityID<Int>) : BaseEntity(id) {
     override var createdAt by BrandTable.createdAt
     override var updatedAt by BrandTable.updatedAt
 
-    val product by ProductEntity referrersOn ProductTable
+    val productList by ProductEntity referrersOn ProductTable
 }

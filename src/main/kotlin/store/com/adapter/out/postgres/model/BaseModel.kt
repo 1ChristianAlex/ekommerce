@@ -13,6 +13,6 @@ open class BaseTable(tableName: String) : IntIdTable(tableName) {
 }
 
 abstract class BaseEntity(id: EntityID<Int>) : IntEntity(id) {
-    protected abstract var createdAt: LocalDateTime
-    protected abstract var updatedAt: LocalDateTime?
+    abstract var createdAt: LocalDateTime
+    abstract var updatedAt: LocalDateTime?
 }

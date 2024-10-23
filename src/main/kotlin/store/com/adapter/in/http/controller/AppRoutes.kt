@@ -2,12 +2,14 @@ package store.com.adapter.`in`.http.controller
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
-import store.com.adapter.`in`.http.controller.auth.loginController
-import store.com.adapter.`in`.http.controller.user.userController
+import store.com.adapter.`in`.http.controller.auth.loginRoutes
+import store.com.adapter.`in`.http.controller.catalog.catalogRoutes
+import store.com.adapter.`in`.http.controller.user.userRoutes
 
 fun Application.appRoutes() {
     routing {
-        loginController()
-        userController()
+        loginRoutes()
+        userRoutes()
+        catalogRoutes()
     }
 }

@@ -15,7 +15,7 @@ class CategoriesEntity(id: EntityID<Int>) : BaseEntity(id) {
 
     var name by CategoriesTable.name
     var description by CategoriesTable.description
-    var products by ProductEntity via CategoriesProductTable
+    var productList by ProductEntity via CategoriesProductTable
 
     override var createdAt by CategoriesTable.createdAt
     override var updatedAt by CategoriesTable.updatedAt

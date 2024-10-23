@@ -1,6 +1,6 @@
 package store.com.domain.user.model
 
-class LoginModel(private val _email: String, private val _password: String) {
+class Login(private val _email: String, private val _password: String) {
     fun isEmailValid(): Boolean = "@" in _email
 
     fun isPasswordValid(): Boolean = _password.isNotEmpty()

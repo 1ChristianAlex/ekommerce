@@ -11,7 +11,7 @@ import store.com.adapter.`in`.http.controller.auth.dto.LoginOutputDto
 import store.com.adapter.`in`.http.controller.user.dto.UserDtoMapper
 import store.com.application.core.auth.JwtService
 import store.com.application.user.port.DoLoginUserEmailUseCase
-import store.com.domain.user.model.UserModel
+import store.com.domain.user.model.User
 import store.com.domain.user.service.LoginService
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -42,7 +42,7 @@ class DoLoginUserEmailUseCaseTest {
         val password = "4545454"
         val token = "token-generated"
 
-        val userModel = UserModel(
+        val user = User(
             password = password,
             email = email,
             name = "Christian Alexsander",
@@ -52,9 +52,9 @@ class DoLoginUserEmailUseCaseTest {
             )
         )
 
-        Mockito.`when`(_loginService.doLoginWithEmail(email, password)).thenReturn(userModel)
+        Mockito.`when`(_loginService.doLoginWithEmail(email, password)).thenReturn(user)
 
-        Mockito.`when`(jwtService.generateToken(loginDtoMapper.toDto(userModel).user)).thenReturn(token)
+        Mockito.`when`(jwtService.generateToken(loginDtoMapper.toDto(user).user)).thenReturn(token)
 
         val result = doLoginUserEmailUseCase.execute(LoginInputDTO(email, password))
 

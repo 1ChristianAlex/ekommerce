@@ -5,7 +5,7 @@ import io.ktor.server.routing.*
 import kotlinx.coroutines.launch
 import org.koin.ktor.ext.inject
 
-fun Routing.userController() {
+fun Routing.userRoutes() {
     val controller by inject<UserController>()
 
     route("user") {

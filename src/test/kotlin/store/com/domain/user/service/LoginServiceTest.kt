@@ -7,7 +7,7 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import store.com.application.core.encrypt.PasswordEncrypt
 import store.com.application.user.port.UserRepository
-import store.com.domain.user.model.UserModel
+import store.com.domain.user.model.User
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -34,7 +34,7 @@ class LoginServiceTest {
         val password = "4545454"
         val passwordHashed = passwordEncrypt.hashPassword(password)
 
-        val userModel = UserModel(
+        val user = User(
             password = passwordHashed,
             email = email,
             name = "Christian Alexsander",
@@ -48,12 +48,12 @@ class LoginServiceTest {
                 email
             )
         ).thenReturn(
-            userModel
+            user
         )
 
         val userResult = loginService.doLoginWithEmail(email, password)
 
         Mockito.verify(userRepository).findUserByEmail(email)
-        assertEquals(userResult, userModel)
+        assertEquals(userResult, user)
     }
 }
